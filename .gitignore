@@ -1,0 +1,30 @@
+# PowerShell artifacts
+*.ps1~
+*.psm1~
+*.psd1~
+
+# Windows noise
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Logs / temp files
+*.log
+*.tmp
+*.temp
+
+# Output directory (if you ever point it into the repo)
+Re-Scans/
+re-scans/
+
+# IDE / editor configs
+.vscode/
+.history/
+.idea/
+*.code-workspace
+
+# Node / misc (just in case you add tooling later)
+node_modules/
+dist/
+build/
