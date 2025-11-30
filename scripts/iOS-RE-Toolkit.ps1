@@ -161,7 +161,6 @@ function Get-MachOEncryptionStatus {
             $cmd = [BitConverter]::ToUInt32($bytes, $cmdOffset)
             $cmdSize = [BitConverter]::ToUInt32($bytes, $cmdOffset + 4)
 
-            # NOTE: placeholder constant kept from your version; adjust if you want stricter LC_ENCRYPTION_INFO parsing
             if ($cmd -eq 0xC) {
                 $cryptoff = [BitConverter]::ToUInt32($bytes, $cmdOffset + 8)
                 $cryptsize = [BitConverter]::ToUInt32($bytes, $cmdOffset + 12)
@@ -176,9 +175,6 @@ function Get-MachOEncryptionStatus {
     }
 }
 
-# ---------------------------------------------------------------------------
-# Calculate string relevance score based on user intent (enhanced)
-# ---------------------------------------------------------------------------
 function Get-StringRelevance {
     param(
         [string]$String,
@@ -281,9 +277,7 @@ function Merge-Hashtables {
     end { return $result }
 }
 
-# ---------------------------------------------------------------------------
-# Smart string extraction with relevance filtering (enhanced)
-# ---------------------------------------------------------------------------
+# Smart string extraction with relevance filtering
 function Get-SmartStrings {
     param(
         [string]$FilePath,
@@ -454,9 +448,7 @@ function Get-SmartStrings {
     return $allStrings
 }
 
-# ---------------------------------------------------------------------------
-# Analyze patterns with smart filtering (expanded)
-# ---------------------------------------------------------------------------
+# Analyze patterns with smart filtering
 function Get-PatternAnalysis {
     param(
         [string]$FilePath,
@@ -571,9 +563,7 @@ function Get-PatternAnalysis {
     return $results
 }
 
-# ---------------------------------------------------------------------------
-# Analyze Plist Files (New)
-# ---------------------------------------------------------------------------
+# Analyze Plist Files
 function Analyze-Plists {
     param([string]$AppPath)
     $results = @{
@@ -606,9 +596,7 @@ function Analyze-Plists {
     return $results
 }
 
-# ---------------------------------------------------------------------------
-# Save results based on output mode (enhanced report, null-safe)
-# ---------------------------------------------------------------------------
+# Save results based on output mode
 function Save-Results {
     param(
         [string]$AppName,
@@ -957,9 +945,7 @@ $AnalysisResults = @{
     Plists               = Analyze-Plists -AppPath $AppPath  # New
 }
 
-# ---------------------------------------------------------------------------
 # PHASE 1: BINARY ANALYSIS
-# ---------------------------------------------------------------------------
 Write-Status "BINARY ANALYSIS" "Header"
 
 $mainBinary = Get-ChildItem -Path . -File |
@@ -989,9 +975,7 @@ if ($mainBinary) {
 
 Write-Host ""
 
-# ---------------------------------------------------------------------------
 # PHASE 2: DYLIB ANALYSIS
-# ---------------------------------------------------------------------------
 Write-Status "DYLIB ANALYSIS" "Header"
 
 $dylibs = @(Get-ChildItem -Path . -Recurse -Include "*.dylib" -File -ErrorAction SilentlyContinue)
@@ -1032,9 +1016,7 @@ foreach ($fw in $frameworkDirs | Select-Object -First 5) {
 
 Write-Host ""
 
-# ---------------------------------------------------------------------------
 # PHASE 3: STRING ANALYSIS (sequential, robust)
-# ---------------------------------------------------------------------------
 if (-not $QuickScan) {
     Write-Status "STRING EXTRACTION ($Global:OutputMode mode)" "Header"
     
@@ -1107,9 +1089,7 @@ if (-not $QuickScan) {
 
 Write-Host ""
 
-# ---------------------------------------------------------------------------
 # PHASE 4: SAVE RESULTS
-# ---------------------------------------------------------------------------
 Write-Status "GENERATING REPORT" "Header"
 
 $outputFile = Save-Results -AppName $AppName -Results $AnalysisResults -Intention ([int]$intention)
